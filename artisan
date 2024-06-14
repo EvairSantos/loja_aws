@@ -1,0 +1,21 @@
+#!/usr/bin/env php
+<?php
+
+require __DIR__.'/vendor/autoload.php';
+
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Output\ConsoleOutput;
+
+$input = new ArgvInput();
+$output = new ConsoleOutput();
+
+$application = new Application();
+$application->setName('My Symfony Console Application');
+$application->setVersion('1.0.0');
+
+// Aqui você pode adicionar seus comandos do Symfony
+// Por exemplo:
+// $application->add(new \App\Command\MeuComando());
+
+$application->run($input, $output);
