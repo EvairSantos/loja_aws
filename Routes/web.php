@@ -1,26 +1,16 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ClienteController;
-use App\Http\Controllers\ProdutoController;
-use App\Http\Controllers\PedidoController;
-use App\Http\Controllers\EntregaController;
-use App\Http\Controllers\CarrinhoController;
+use App\Controllers\ClienteController;
+use App\Controllers\ProdutoController;
+use App\Controllers\PedidoController;
+use App\Controllers\EntregaController;
+use App\Controllers\CarrinhoController;
 
-// Rota para listar todos os clientes
-Route::get('/clientes', [ClienteController::class, 'index']);
-
-// Rota para exibir detalhes de um cliente específico
-Route::get('/clientes/{id}', [ClienteController::class, 'show']);
-
-// Rota para criar um novo cliente
-Route::post('/clientes', [ClienteController::class, 'store']);
-
-// Rota para atualizar informações de um cliente
-Route::put('/clientes/{id}', [ClienteController::class, 'update']);
-
-// Rota para excluir um cliente
-Route::delete('/clientes/{id}', [ClienteController::class, 'destroy']);
+Route::get('/clientes', [ClienteController::class, 'listarClientes']);
+Route::post('/clientes', [ClienteController::class, 'criarCliente']);
+Route::put('/clientes/{id}', [ClienteController::class, 'atualizarCliente']);
+Route::delete('/clientes/{id}', [ClienteController::class, 'deletarCliente']);
 
 
 // Rotas para produtos
