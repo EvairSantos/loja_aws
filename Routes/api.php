@@ -1,66 +1,47 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Controllers\ClienteController;
+use App\Controllers\ProdutoController;
+use App\Controllers\PedidoController;
+use App\Controllers\EntregaController;
+use App\Controllers\CarrinhoController;
 
-/*
-|--------------------------------------------------------------------------
-| ██████╗  █████╗ ██╗  ██╗██████╗ ██╗   ██╗██╗██╗
-| ██╔══██╗██╔══██╗██║ ██╔╝██╔══██╗██║   ██║██║██║
-| ██████╔╝███████║█████╔╝ ██║  ██║██║   ██║██║██║
-| ██╔══██╗██╔══██║██╔═██╗ ██║  ██║██║   ██║╚═╝╚═╝
-| ██████╔╝██║  ██║██║  ██╗██████╔╝╚██████╔╝██╗██╗
-| ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝  ╚═════╝ ╚═╝╚═╝
-|--------------------------------------------------------------------------
-|
-| Aqui é onde você pode registrar as rotas da API para sua aplicação.
-| Essas rotas são carregadas pelo RouteServiceProvider dentro de um grupo que
-| é atribuído ao grupo de middlewares "api".
-|
-*/
+Route::get('/clientes', [ClienteController::class, 'listarClientes']);
+Route::post('/clientes', [ClienteController::class, 'criarCliente']);
+Route::put('/clientes/{id}', [ClienteController::class, 'atualizarCliente']);
+Route::delete('/clientes/{id}', [ClienteController::class, 'deletarCliente']);
 
 
-// Rota de exemplo para retornar uma mensagem simples
-Route::get('/example', function () {
-    return 'Hello World';
-});
+// Rotas para produtos
+Route::get('/produtos', [ProdutoController::class, 'index']);
+Route::get('/produtos/{id}', [ProdutoController::class, 'show']);
+Route::post('/produtos', [ProdutoController::class, 'store']);
+Route::put('/produtos/{id}', [ProdutoController::class, 'update']);
+Route::delete('/produtos/{id}', [ProdutoController::class, 'destroy']);
 
-// Rotas para recursos relacionados a clientes
-Route::prefix('clientes')->group(function () {
-    Route::get('/', 'App\Http\Controllers\ClienteController@index');        // Listar todos os clientes
-    Route::post('/', 'App\Http\Controllers\ClienteController@store');       // Criar um novo cliente
-    Route::get('/{id}', 'App\Http\Controllers\ClienteController@show');     // Exibir um cliente específico
-    Route::put('/{id}', 'App\Http\Controllers\ClienteController@update');   // Atualizar um cliente específico
-    Route::delete('/{id}', 'App\Http\Controllers\ClienteController@destroy');// Excluir um cliente específico
-});
 
-// Rotas para recursos relacionados a produtos
-Route::prefix('produtos')->group(function () {
-    Route::get('/', 'App\Http\Controllers\ProdutoController@index');        // Listar todos os produtos
-    Route::post('/', 'App\Http\Controllers\ProdutoController@store');       // Criar um novo produto
-    Route::get('/{id}', 'App\Http\Controllers\ProdutoController@show');     // Exibir um produto específico
-    Route::put('/{id}', 'App\Http\Controllers\ProdutoController@update');   // Atualizar um produto específico
-    Route::delete('/{id}', 'App\Http\Controllers\ProdutoController@destroy');// Excluir um produto específico
-});
+// Rotas para pedidos
+Route::get('/pedidos', [PedidoController::class, 'index']);
+Route::get('/pedidos/{id}', [PedidoController::class, 'show']);
+Route::post('/pedidos', [PedidoController::class, 'store']);
+Route::put('/pedidos/{id}', [PedidoController::class, 'update']);
+Route::delete('/pedidos/{id}', [PedidoController::class, 'destroy']);
 
-// Rotas para recursos relacionados a pedidos
-Route::prefix('pedidos')->group(function () {
-    Route::get('/', 'App\Http\Controllers\PedidoController@index');        // Listar todos os pedidos
-    Route::post('/', 'App\Http\Controllers\PedidoController@store');       // Criar um novo pedido
-    Route::get('/{id}', 'App\Http\Controllers\PedidoController@show');     // Exibir um pedido específico
-    Route::put('/{id}', 'App\Http\Controllers\PedidoController@update');   // Atualizar um pedido específico
-    Route::delete('/{id}', 'App\Http\Controllers\PedidoController@destroy');// Excluir um pedido específico
-});
 
-// Rotas para recursos relacionados a entregas
-Route::prefix('entregas')->group(function () {
-    Route::get('/', 'App\Http\Controllers\EntregaController@index');        // Listar todas as entregas
-    Route::post('/', 'App\Http\Controllers\EntregaController@store');       // Criar uma nova entrega
-    Route::get('/{id}', 'App\Http\Controllers\EntregaController@show');     // Exibir uma entrega específica
-    Route::put('/{id}', 'App\Http\Controllers\EntregaController@update');   // Atualizar uma entrega específica
-    Route::delete('/{id}', 'App\Http\Controllers\EntregaController@destroy');// Excluir uma entrega específica
-});
+// Rotas para entregas
+Route::get('/entregas', [EntregaController::class, 'index']);
+Route::get('/entregas/{id}', [EntregaController::class, 'show']);
+Route::post('/entregas', [EntregaController::class, 'store']);
+Route::put('/entregas/{id}', [EntregaController::class, 'update']);
+Route::delete('/entregas/{id}', [EntregaController::class, 'destroy']);
 
-// Rota para capturar exceções de API
-Route::fallback(function () {
-    return response()->json(['message' => 'Endpoint não encontrado.'], 404);
-});
+
+// Rotas para o carrinho de compras
+Route::get('/carrinho', [CarrinhoController::class, 'index']);
+Route::post('/carrinho/adicionar', [CarrinhoController::class, 'add']);
+Route::put('/carrinho/atualizar/{id}', [CarrinhoController::class, 'update']);
+Route::delete('/carrinho/remover/{id}', [CarrinhoController::class, 'remove']);
+
+// Outras rotas conforme necessário...
+
