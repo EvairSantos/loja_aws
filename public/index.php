@@ -1,27 +1,41 @@
 <?php
 
-require __DIR__ . '/../vendor/autoload.php';
+// Exibir erros para depuração (remover em produção)
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-// Inclui o autoload do Composer para carregar as dependências
-require ROOT . '/vendor/autoload.php';
+// Caminho base da aplicação
+$basePath = dirname(__DIR__);
 
-// Inicializa as variáveis de ambiente do arquivo .env
-$dotenv = Dotenv\Dotenv::createImmutable(ROOT);
-$dotenv->load();
+// Carregar autoload do Composer
+require $basePath.'/vendor/autoload.php';
 
-// Cria uma instância do aplicativo Laravel
-$app = require_once ROOT . '/bootstrap/app.php';
+// Iniciar aplicação Laravel
+$app = require_once $basePath.'/bootstrap/app.php';
 
-// Obtém o kernel HTTP do aplicativo
+// Obter o kernel HTTP
 $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
 
-// Manipula a requisição HTTP capturada
-$response = $kernel->handle(
-    $request = Illuminate\Http\Request::capture()
-);
+try {
+    // Tratar a requisição HTTP
+    $response = $kernel->handle(
+        $request = Illuminate\Http\Request::capture()
+    );
 
-// Envia a resposta de volta ao cliente
-$response->send();
+    // Enviar a resposta
+    $response->send();
 
-// Termina o ciclo do kernel
-$kernel->terminate($request, $response);
+} catch (\Exception $e) {
+    // Se ocorrer uma exceção, exibir informações de erro
+    http_response_code(500);
+    echo "<html><head><title>Erro 500 - Internal Server Error</title></head><body>";
+    echo "<h1>Erro 500 - Internal Server Error</h1>";
+    echo "<p>Ocorreu um erro interno no servidor.</p>";
+    echo "<p>Detalhes do erro:</p>";
+    echo "<pre>{$e}</pre>";
+    echo "</body></html>";
+    
+} finally {
+    // Finalizar o kernel
+    $kernel->terminate($request, $response);
+}
